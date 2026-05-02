@@ -7,6 +7,7 @@ find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
 
 add_executable(collision
     src/main.cpp
+    src/boule.cpp
 )
 
 
