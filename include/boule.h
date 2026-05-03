@@ -23,6 +23,7 @@ class Boule {
         const sf::Vector2f &get_v() const;
         float get_r() const;
 
+        void sortieEcran(int resol_x, int resol_y);
         bool collision(const Boule &autreBoule) const;
 };
 

@@ -101,8 +101,9 @@ int main()    {
                 mesBoulesOrdre.push_back(lastBoule);
             }
 
-        //Actualise positions boules
+        //Actualise positions boules et vérifie sortie
         for (Boule &b : mesBoules)  {
+            b.sortieEcran(800, 600);
             b.update();
         }
 

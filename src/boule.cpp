@@ -58,6 +58,16 @@ float Boule::get_r()  const{
     return rayon;
 }
 
+//Pour les limites de l'ecran
+void Boule::sortieEcran(int resol_x, int resol_y)   {
+    int diametre = rayon * 2;
+    if (position.x < 0 - diametre) position.x = resol_x;
+    if (position.y < 0 - diametre) position.y = resol_y;
+
+    if (position.x > resol_x) position.x = 0 - diametre;
+    if (position.y > resol_y) position.y = 0 - diametre;
+}
+
 //Vérifie la collision avec une autre boule
 bool Boule::collision(const Boule &autreBoule)  const{
     float rayon_Tot = rayon + autreBoule.rayon;
