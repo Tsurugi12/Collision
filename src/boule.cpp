@@ -1,6 +1,7 @@
 #include "boule.h"
 #include <math.h>
 
+//Constructeur
 Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v)  {
     position = p_p;
     rayon = p_r;
@@ -10,14 +11,17 @@ Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v)  
     circle.setFillColor(couleur);
 }
 
+//Actualise position
 void Boule::update()    {
     circle.setPosition(position);
 }
 
+//Affiche boule
 void Boule::draw(sf::RenderWindow &window)  {
     window.draw(circle);
 }
 
+//change la vitesse
 void Boule::modify_v(sf::Vector2f p_v, bool add)  {
     if (add)    {
         vitesse.x += p_v.x;
@@ -29,6 +33,7 @@ void Boule::modify_v(sf::Vector2f p_v, bool add)  {
     }
 }
 
+//change la position
 void Boule::modify_pos(sf::Vector2f p_p, bool add)    {
     if (add)    {
         position.x += p_p.x;
@@ -40,6 +45,7 @@ void Boule::modify_pos(sf::Vector2f p_p, bool add)    {
     }
 }
 
+/////////////////////////////////////////////getters/////////////////////////////////////////////
 const sf::Vector2f &Boule::get_pos()  const{
     return position;
 }
@@ -52,6 +58,7 @@ float Boule::get_r()  const{
     return rayon;
 }
 
+//Vérifie la collision avec une autre boule
 bool Boule::collision(const Boule &autreBoule)  const{
     float rayon_Tot = rayon + autreBoule.rayon;
 
