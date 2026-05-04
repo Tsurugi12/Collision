@@ -21,8 +21,8 @@ int main()    {
 
     //Création vector Boule
     std::vector<Boule> mesBoules = {
-        Boule({0.f, 0.f}, 40.f, sf::Color::Red, {1, 1}), 
-        Boule({80.f, 0.f}, 30.f, sf::Color::Blue, {3, 3})
+        Boule({0.f, 0.f}, 40.f, sf::Color::Red, {1, 1}, 800, 600), 
+        Boule({80.f, 0.f}, 30.f, sf::Color::Blue, {3, 3}, 800, 600)
     };
 
     //Pour gérer l'ordre d'affichage
@@ -103,7 +103,7 @@ int main()    {
 
         //Actualise positions boules et vérifie sortie
         for (Boule &b : mesBoules)  {
-            b.sortieEcran(800, 600);
+            b.sortieEcran(window);
             b.update();
         }
 
