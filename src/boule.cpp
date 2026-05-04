@@ -1,5 +1,4 @@
 #include "boule.h"
-#include <math.h>
 
 //Constructeur
 Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y)  {
@@ -94,9 +93,15 @@ void Boule::sortieEcran(sf::RenderWindow &window)   {
 
 //Vérifie la collision avec une autre boule
 bool Boule::collision(const Boule &autreBoule)  const{
+    float centre_x_1 = position.x + rayon;
+    float centre_y_1 = position.y + rayon;
+    float centre_x_2 = autreBoule.position.x + autreBoule.rayon;
+    float centre_y_2 = autreBoule.position.y + autreBoule.rayon;
+
     float rayon_Tot = rayon + autreBoule.rayon;
 
-    float distance = sqrt(pow((position.x - autreBoule.position.x),2) + pow((position.y - autreBoule.position.y),2));
+    float d_x = centre_x_1 - centre_x_2;
+    float d_y = centre_y_1 - centre_y_2;
 
-    return distance < rayon_Tot;
+    return (d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot;
 }

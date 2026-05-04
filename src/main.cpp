@@ -4,6 +4,7 @@
 
 //Include de mes librairies
 #include "boule.h"
+#include "commande.h"
 
 int main()    {
     //Création fenêtre
@@ -47,51 +48,76 @@ int main()    {
             //Vérifie fermeture
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            //surveille + et - pour changer le mode et escape pour fermer
+            if (event.type == sf::Event::KeyPressed)    {
+                switch (event.key.code) {
+                    case sf::Keyboard::Escape:
+                    window.close();
+                    break;
+
+                    case sf::Keyboard::Add:
+                        modeActifCollision++;
+                        modeActifCollision%=2;
+                        break;
+
+                    case sf::Keyboard::Subtract:
+                        modeActifCollision--;
+                        (modeActifCollision == -1)? modeActifCollision = 1 : modeActifCollision;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
         //Affiche les modes
         switch (modeActifCollision)  {
-        case 0:
-            mode.setString("Sans collision (+/-)");
-            break;
-        
-        default:
-            mode.setString("+ ou - pour changer");
-            break;
+            case 0:
+                mode.setString(std::to_string(modeActifCollision) + ") Sans collision (+/-)");
+                break;
+            case 1:
+                mode.setString(std::to_string(modeActifCollision) + ") Collision statique (+/-)");
+                break;
+            
+            default:
+                mode.setString("+ ou - pour changer");
+                break;
         }
 
         /////////////////////////////////////////////Gères les déplacements/////////////////////////////////////////////
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))    {
-            mesBoules[0].modify_pos({0, -mesBoules[0].get_v().y}, true);
+            gererDeplacement(mesBoules, 0, 0, -1, modeActifCollision);
             lastBoule = 0;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))    {
-            mesBoules[0].modify_pos({0, mesBoules[0].get_v().y}, true);
+            gererDeplacement(mesBoules, 0, 0, 1, modeActifCollision);
             lastBoule = 0;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))    {
-            mesBoules[0].modify_pos({-mesBoules[0].get_v().x, 0}, true);
+            gererDeplacement(mesBoules, 0, -1, 0, modeActifCollision);
             lastBoule = 0;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))    {
-            mesBoules[0].modify_pos({mesBoules[0].get_v().x, 0}, true);
+            gererDeplacement(mesBoules, 0, 1, 0, modeActifCollision);
             lastBoule = 0;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    {
-            mesBoules[1].modify_pos({0, -mesBoules[1].get_v().y}, true);
+            gererDeplacement(mesBoules, 1, 0, -1, modeActifCollision);
             lastBoule = 1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))    {
-            mesBoules[1].modify_pos({0, mesBoules[1].get_v().y}, true);
+            gererDeplacement(mesBoules, 1, 0, 1, modeActifCollision);
             lastBoule = 1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))    {
-            mesBoules[1].modify_pos({-mesBoules[1].get_v().x, 0}, true);
+            gererDeplacement(mesBoules, 1, -1, 0, modeActifCollision);
             lastBoule = 1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))    {
-            mesBoules[1].modify_pos({mesBoules[1].get_v().x, 0}, true);
+            gererDeplacement(mesBoules, 1, 1, 0, modeActifCollision);
             lastBoule = 1;
         }
 
