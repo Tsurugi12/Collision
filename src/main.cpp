@@ -133,7 +133,7 @@ int main()    {
 
         //Actualise positions boules et vérifie sortie
         for (Boule &b : mesBoules)  {
-            b.sortieEcran(window);
+            b.sortieEcran(window);//Des situations etranges peuvent se produire dû au balles fantome. Refaire l'architecture.... si j'ai le courage pour cette feature
             b.update();
         }
 

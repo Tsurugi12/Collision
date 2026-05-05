@@ -26,6 +26,7 @@ void gereCollision(std::vector<Boule> &mesBoules, int bouleActuel, int d_x, int 
     }
 
     if (modeActifCollision == 2)    {
+        //FIXME: collision avec balle fantome dans coin et certains "event"
         for (int i = 0; i < mesBoules.size(); i++)   {
             if (i != bouleActuel)   {
                 if (mesBoules[bouleActuel].collision(mesBoules[i]))
