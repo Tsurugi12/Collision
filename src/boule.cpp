@@ -112,19 +112,19 @@ bool Boule::collision(const Boule &autreBoule)  const{
         if (positionFantome.x != -9999 && positionFantome.y != -9999)   {
             if (autreBoule.positionFantome.x == -9999 && autreBoule.positionFantome.y == -9999)  {
                 //fantome en x mais pas y
-                if (position.x < rayon * 2 && position.y > rayon * 2) {
+                if (position.x < 0 && position.y > 0) {
                     centre_x_1 = position.x + resol_x + rayon;
                     d_x = centre_x_1 - centre_x_2;
                 }
 
                 //fantome en y mais pas x
-                if (position.y < rayon * 2 && position.x > rayon * 2) {
+                if (position.y < 0 && position.x > 0) {
                     centre_y_1 = position.y + resol_y + rayon;
                     d_y = centre_y_1 - centre_y_2;
                 }
 
                 //fantome en x et y
-                if (position.x < rayon * 2  && position.y < rayon * 2) {
+                if (position.x < 0  && position.y < 0) {
                     //On vérifie en x
                     centre_x_1 = position.x + resol_x + rayon;
                     d_x = centre_x_1 - centre_x_2;
@@ -148,19 +148,19 @@ bool Boule::collision(const Boule &autreBoule)  const{
         if (autreBoule.positionFantome.x != -9999 && autreBoule.positionFantome.y != -9999)   {
             if (positionFantome.x == -9999 && positionFantome.y == -9999)   {
                 //fantome en x
-                if (autreBoule.position.x < autreBoule.rayon * 2 && autreBoule.position.y > autreBoule.rayon * 2) {
+                if (autreBoule.position.x < 0 && autreBoule.position.y > 0) {
                     centre_x_2 = autreBoule.position.x + autreBoule.resol_x + autreBoule.rayon;
                     d_x = centre_x_1 - centre_x_2;
                 }
 
                 //fantome en y
-                if (autreBoule.position.y < autreBoule.rayon * 2 && autreBoule.position.x > autreBoule.rayon * 2) {
+                if (autreBoule.position.y < 0 && autreBoule.position.x > 0) {
                     centre_y_2 = autreBoule.position.y + autreBoule.resol_y + autreBoule.rayon;
                     d_y = centre_y_1 - centre_y_2;
                 }
 
                 //fantome en x et y
-                if (autreBoule.position.x < autreBoule.rayon * 2  && autreBoule.position.y < autreBoule.rayon * 2) {
+                if (autreBoule.position.x < 0  && autreBoule.position.y < 0) {
                     //On vérifie en x
                     centre_x_2 = autreBoule.position.x + autreBoule.resol_x + autreBoule.rayon;
                     d_x = centre_x_1 - centre_x_2;
@@ -178,8 +178,69 @@ bool Boule::collision(const Boule &autreBoule)  const{
                 }
             }
         }
-        //Les 2 boules sont fantome sont geré car si l'une est fantome, cela touchera d'un coté ou de l'autre....j'espere. ah bah non
-        //TODO:
+
+        //Les 2 sont fantomes
+        if (positionFantome.x != -9999 && positionFantome.y != -9999 && autreBoule.positionFantome.x != -9999 && autreBoule.positionFantome.y != -9999) {
+            //fantome en x mais pas y
+            if (position.x < 0 && position.y > 0) {
+                centre_x_1 = position.x + resol_x + rayon;
+                d_x = centre_x_1 - centre_x_2;
+            }
+
+            //fantome en y mais pas x
+            if (position.y < 0 && position.x > 0) {
+                centre_y_1 = position.y + resol_y + rayon;
+                d_y = centre_y_1 - centre_y_2;
+            }
+
+            //fantome en x et y
+            if (position.x < 0  && position.y < 0) {
+                //On vérifie en x
+                centre_x_1 = position.x + resol_x + rayon;
+                d_x = centre_x_1 - centre_x_2;
+                if ((d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot)    return true;
+
+                //On vérifie en x et en y
+                centre_y_1 = position.y + resol_y + rayon;
+                d_y = centre_y_1 - centre_y_2;
+                if ((d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot)    return true;
+
+                //On vérifie seulement en y
+                centre_x_1 = position.x + rayon;
+                d_x = centre_x_1 - centre_x_2;
+                if ((d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot)    return true;
+            }
+
+            //fantome en x mais pas y
+            if (autreBoule.position.x < 0 && autreBoule.position.y > 0) {
+                centre_x_2 = autreBoule.position.x + autreBoule.resol_x + autreBoule.rayon;
+                d_x = centre_x_1 - centre_x_2;
+            }
+
+            //fantome en y mais pas x
+            if (autreBoule.position.y < 0 && autreBoule.position.x > 0) {
+                centre_y_2 = autreBoule.position.y + autreBoule.resol_y + autreBoule.rayon;
+                d_y = centre_y_1 - centre_y_2;
+            }
+
+            //fantome en x et y
+            if (autreBoule.position.x < 0  && autreBoule.position.y < 0) {
+                //On vérifie en x
+                centre_x_2 = autreBoule.position.x + autreBoule.resol_x + autreBoule.rayon;
+                d_x = centre_x_1 - centre_x_2;
+                if ((d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot)    return true;
+
+                //On vérifie en x et en y
+                centre_y_2 = autreBoule.position.y + autreBoule.resol_y + autreBoule.rayon;
+                d_y = centre_y_1 - centre_y_2;
+                if ((d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot)    return true;
+
+                //On vérifie seulement en y
+                centre_x_2 = autreBoule.position.x + autreBoule.rayon;
+                d_x = centre_x_1 - centre_x_2;
+                if ((d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot)    return true;
+            }
+        }
         return (d_x * d_x + d_y * d_y) < rayon_Tot * rayon_Tot;
     }
 }
