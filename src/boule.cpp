@@ -28,7 +28,7 @@ void Boule::draw(sf::RenderWindow &window)  {
         window.draw(circle);
 
         //et 2 autres boules fantome dans les angles
-        if (sortie_x)   {
+        if (sortie_x && sortie_y)   {
             circle.setPosition(positionFantome.x + resol_x, positionFantome.y);
             window.draw(circle);
 
@@ -87,8 +87,9 @@ void Boule::sortieEcran(sf::RenderWindow &window)   {
     //Créér une illusion de deuxième balle (recupere coordonnées)
     positionFantome = {-9999, -9999};
     sortie_x = false;
+    sortie_y = false;
     if ((position.x < 0) && (position.x >= 0 - diametre))    {  positionFantome = {position.x + resol_x, position.y};   sortie_x = true;   }
-    if ((position.y < 0) && (position.y >= 0 - diametre))    {  positionFantome = {position.x, position.y + + resol_y};   }
+    if ((position.y < 0) && (position.y >= 0 - diametre))    {  positionFantome = {position.x, position.y + resol_y};   sortie_y = true;   }
 }
 
 //Vérifie la collision avec une autre boule
@@ -107,8 +108,8 @@ bool Boule::collision(const Boule &autreBoule)  const{
 
     if (collision)  return collision;
     else    {
+        //Boule actuel fantome mais pas l'autre
         if (positionFantome.x != -9999 && positionFantome.y != -9999)   {
-            //Boule actuel fantome mais pas l'autre
             if (autreBoule.positionFantome.x == -9999 && autreBoule.positionFantome.y == -9999)  {
                 //fantome en x mais pas y
                 if (position.x < rayon * 2 && position.y > rayon * 2) {

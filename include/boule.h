@@ -10,7 +10,7 @@ class Boule {
         sf::Vector2f positionFantome;
         sf::Vector2f vitesse;
         float rayon;
-        bool sortie_x;
+        bool sortie_x, sortie_y;
         int resol_x, resol_y;
 
     public:

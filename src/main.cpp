@@ -92,36 +92,36 @@ int main()    {
 
         /////////////////////////////////////////////Gères les déplacements/////////////////////////////////////////////
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))    {
-            gererDeplacement(mesBoules, 0, 0, -1, modeActifCollision, 0);
+            gererDeplacement(mesBoules, 0, 0, -1, modeActifCollision, 0, window);
             lastBoule = 0;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))    {
-            gererDeplacement(mesBoules, 0, 0, 1, modeActifCollision, 0);
+            gererDeplacement(mesBoules, 0, 0, 1, modeActifCollision, 0, window);
             lastBoule = 0;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))    {
-            gererDeplacement(mesBoules, 0, -1, 0, modeActifCollision, 0);
+            gererDeplacement(mesBoules, 0, -1, 0, modeActifCollision, 0, window);
             lastBoule = 0;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))    {
-            gererDeplacement(mesBoules, 0, 1, 0, modeActifCollision, 0);
+            gererDeplacement(mesBoules, 0, 1, 0, modeActifCollision, 0, window);
             lastBoule = 0;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    {
-            gererDeplacement(mesBoules, 1, 0, -1, modeActifCollision, 1);
+            gererDeplacement(mesBoules, 1, 0, -1, modeActifCollision, 1, window);
             lastBoule = 1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))    {
-            gererDeplacement(mesBoules, 1, 0, 1, modeActifCollision, 1);
+            gererDeplacement(mesBoules, 1, 0, 1, modeActifCollision, 1, window);
             lastBoule = 1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))    {
-            gererDeplacement(mesBoules, 1, -1, 0, modeActifCollision, 1);
+            gererDeplacement(mesBoules, 1, -1, 0, modeActifCollision, 1, window);
             lastBoule = 1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))    {
-            gererDeplacement(mesBoules, 1, 1, 0, modeActifCollision, 1);
+            gererDeplacement(mesBoules, 1, 1, 0, modeActifCollision, 1, window);
             lastBoule = 1;
         }
 
@@ -133,7 +133,6 @@ int main()    {
 
         //Actualise positions boules et vérifie sortie
         for (Boule &b : mesBoules)  {
-            b.sortieEcran(window);//Des situations etranges peuvent se produire dû au balles fantome. Refaire l'architecture.... si j'ai le courage pour cette feature
             b.update();
         }
 
