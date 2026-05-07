@@ -58,12 +58,12 @@ int main()    {
 
                     case sf::Keyboard::Add:
                         modeActifCollision++;
-                        modeActifCollision%=3;
+                        modeActifCollision%=4;
                         break;
 
                     case sf::Keyboard::Subtract:
                         modeActifCollision--;
-                        (modeActifCollision == -1)? modeActifCollision = 2 : modeActifCollision;
+                        (modeActifCollision == -1)? modeActifCollision = 3 : modeActifCollision;
                         break;
 
                     default:
@@ -83,6 +83,10 @@ int main()    {
 
             case 2:
                 mode.setString(std::to_string(modeActifCollision) + ") Collision mouvemente (+/-)");
+                break;
+
+            case 3:
+                mode.setString(std::to_string(modeActifCollision) + ") Collision rebond (+/-)");
                 break;
             
             default:
@@ -133,6 +137,7 @@ int main()    {
 
         //Actualise positions boules et vérifie sortie
         for (Boule &b : mesBoules)  {
+            b.rebond({0,0}, window, mesBoules);
             b.update();
         }
 

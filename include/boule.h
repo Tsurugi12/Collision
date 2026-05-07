@@ -9,6 +9,8 @@ class Boule {
         sf::Vector2f position;
         sf::Vector2f positionFantome;
         sf::Vector2f vitesse;
+        sf::Vector2f velocite;
+        float friction;
         float rayon;
         bool sortie_x, sortie_y;
         int resol_x, resol_y;
@@ -17,6 +19,7 @@ class Boule {
         Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y);
 
         void update();
+        void rebond(sf::Vector2f force, sf::RenderWindow &window, std::vector<Boule> &mesBoules);
         void draw(sf::RenderWindow &window);
 
         void modify_v(sf::Vector2f p_v, bool add);

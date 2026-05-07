@@ -8,6 +8,8 @@ Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, i
     vitesse = p_v;
     resol_x = p_resol_x;
     resol_y = p_resol_y;
+    friction = 0.95;
+    velocite = {0,0};
 
     circle.setRadius(rayon);
     circle.setFillColor(couleur);
@@ -16,6 +18,22 @@ Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, i
 //Actualise position
 void Boule::update()    {
     circle.setPosition(position);
+}
+
+//Gere les rebonds entre boule
+void Boule::rebond(sf::Vector2f force, sf::RenderWindow &window, std::vector<Boule> &mesBoules)   {
+    if (velocite.x < 0.1 && velocite.y < 0.1)   velocite = {0,0};
+
+    velocite += force;
+    
+    modify_pos(velocite, true);
+    sortieEcran(window);
+    for (int i = 0; i < mesBoules.size(); i++)  {
+        if (position != mesBoules[i].position)
+            if (collision(mesBoules[i]))    velocite = {0,0};
+    }
+
+    velocite *= friction;
 }
 
 //Affiche boule
