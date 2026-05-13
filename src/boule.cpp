@@ -22,7 +22,7 @@ void Boule::update()    {
 
 //Gere les rebonds entre boule
 void Boule::rebond(sf::Vector2f force, sf::RenderWindow &window, std::vector<Boule> &mesBoules)   {
-    if (velocite.x < 0.1 && velocite.y < 0.1)   velocite = {0,0};
+    if (velocite.x*velocite.x < 0.1 && velocite.y*velocite.y < 0.1)   velocite = {0,0};
 
     velocite += force;
     
