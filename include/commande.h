@@ -4,7 +4,7 @@
 #include <vector>
 #include "boule.h"
 
-void gererDeplacement(std::vector<Boule> &mesBoules, int bouleActuel, int d_x, int d_y, int modeActifCollision, int ancienneBoule, sf::RenderWindow &window);
+void gererDeplacement(std::vector<Boule> &mesBoules, int bouleActuel, sf::Vector2f deplacement, int modeActifCollision, int ancienneBoule, sf::RenderWindow &window);
 void gereCollision(std::vector<Boule> &mesBoules, int bouleActuel, int d_x, int d_y, int modeActifCollision, int ancienneBoule, sf::RenderWindow &window);
 
 #endif

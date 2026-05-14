@@ -16,24 +16,27 @@ Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, i
 }
 
 //Actualise position
-void Boule::update()    {
-    circle.setPosition(position);
+void Boule::update(sf::Vector2f pos)    {
+    circle.setPosition(pos);
 }
 
 //Gere les rebonds entre boule
 void Boule::rebond(sf::Vector2f force, sf::RenderWindow &window, std::vector<Boule> &mesBoules)   {
     if (velocite.x*velocite.x < 0.1 && velocite.y*velocite.y < 0.1)   velocite = {0,0};
-
-    velocite += force;
     
     modify_pos(velocite, true);
     sortieEcran(window);
+    /*
     for (int i = 0; i < mesBoules.size(); i++)  {
         if (position != mesBoules[i].position)
             if (collision(mesBoules[i]))    velocite = {0,0};
     }
-
+    */
+    //FIXME: probleme de ratio vitesse, rebond diagonale defectueux
     velocite *= friction;
+    if (force.x != 0 || force.y != 0)
+        if (velocite.x <= force.x || velocite.y <= force.y)
+            velocite += force;
 }
 
 //Affiche boule

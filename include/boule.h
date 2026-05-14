@@ -18,7 +18,7 @@ class Boule {
     public:
         Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y);
 
-        void update();
+        void update(sf::Vector2f pos);
         void rebond(sf::Vector2f force, sf::RenderWindow &window, std::vector<Boule> &mesBoules);
         void draw(sf::RenderWindow &window);
 

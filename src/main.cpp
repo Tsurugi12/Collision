@@ -30,6 +30,10 @@ int main()    {
     std::vector<int> mesBoulesOrdre = {0, 1};
     int lastBoule = 0;
 
+    //Vecteur qui gere le deplacment des 2 boules
+    std::vector<sf::Vector2f> mesBoulesDeplacement = {{0,0}, {0,0}};
+    int indiceActuel = 0;
+
     /*Pour gérer le mode
         0: sans collision
         1: collision static
@@ -77,6 +81,7 @@ int main()    {
             case 0:
                 mode.setString(std::to_string(modeActifCollision) + ") Sans collision (+/-)");
                 break;
+
             case 1:
                 mode.setString(std::to_string(modeActifCollision) + ") Collision statique (+/-)");
                 break;
@@ -95,50 +100,59 @@ int main()    {
         }
 
         /////////////////////////////////////////////Gères les déplacements/////////////////////////////////////////////
+        indiceActuel = 0;
+        mesBoulesDeplacement[indiceActuel] = {0,0};
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))    {
-            gererDeplacement(mesBoules, 0, 0, -1, modeActifCollision, 0, window);
-            lastBoule = 0;
+            mesBoulesDeplacement[indiceActuel].y -= 1;
+            lastBoule = indiceActuel;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))    {
-            gererDeplacement(mesBoules, 0, 0, 1, modeActifCollision, 0, window);
-            lastBoule = 0;
+            mesBoulesDeplacement[indiceActuel].y += 1;
+            lastBoule = indiceActuel;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))    {
-            gererDeplacement(mesBoules, 0, -1, 0, modeActifCollision, 0, window);
-            lastBoule = 0;
+            mesBoulesDeplacement[indiceActuel].x -= 1;
+            lastBoule = indiceActuel;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))    {
-            gererDeplacement(mesBoules, 0, 1, 0, modeActifCollision, 0, window);
-            lastBoule = 0;
+            mesBoulesDeplacement[indiceActuel].x += 1;
+            lastBoule = indiceActuel;
         }
 
+        indiceActuel = 1;
+        mesBoulesDeplacement[indiceActuel] = {0,0};
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    {
-            gererDeplacement(mesBoules, 1, 0, -1, modeActifCollision, 1, window);
-            lastBoule = 1;
+            mesBoulesDeplacement[indiceActuel].y -= 1;
+            lastBoule = indiceActuel;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))    {
-            gererDeplacement(mesBoules, 1, 0, 1, modeActifCollision, 1, window);
-            lastBoule = 1;
+            mesBoulesDeplacement[indiceActuel].y += 1;
+            lastBoule = indiceActuel;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))    {
-            gererDeplacement(mesBoules, 1, -1, 0, modeActifCollision, 1, window);
-            lastBoule = 1;
+            mesBoulesDeplacement[indiceActuel].x -= 1;
+            lastBoule = indiceActuel;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))    {
-            gererDeplacement(mesBoules, 1, 1, 0, modeActifCollision, 1, window);
-            lastBoule = 1;
+            mesBoulesDeplacement[indiceActuel].x += 1;
+            lastBoule = indiceActuel;
         }
 
         //Pour la priorité d'affichage
         if (mesBoulesOrdre.back() != lastBoule) {
                 mesBoulesOrdre.erase(std::find(mesBoulesOrdre.begin(), mesBoulesOrdre.end(), lastBoule));
                 mesBoulesOrdre.push_back(lastBoule);
-            }
+        }
 
-        //Actualise positions boules et vérifie sortie
+        //Gere le deplacement
+        for (int i = 0 ; i < mesBoulesDeplacement.size() ; i++)   
+            gererDeplacement(mesBoules, i, mesBoulesDeplacement[i], modeActifCollision, i, window);
+
+        //Actualise positions boules et rebond
         for (Boule &b : mesBoules)  {
-            b.rebond({0,0}, window, mesBoules);
-            b.update();
+            if (modeActifCollision == 3)
+                b.rebond({0,0}, window, mesBoules);
+            b.update(b.get_pos());
         }
 
         //Nettoie fenetre / affiches les boules / affiches le texte / affiche
@@ -148,6 +162,7 @@ int main()    {
             mesBoules[b].draw(window);
         }
         window.draw(mode);
+        
         window.display();
         sf::sleep(sf::milliseconds(10));
     }
