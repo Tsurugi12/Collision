@@ -148,21 +148,22 @@ int main()    {
         for (int i = 0 ; i < mesBoulesDeplacement.size() ; i++)   
             gererDeplacement(mesBoules, i, mesBoulesDeplacement[i], modeActifCollision, i, window);
 
-        //Actualise positions boules et rebond
-        for (Boule &b : mesBoules)  {
+        //Actualise rebond
+        for (int i = 0; i < mesBoules.size(); i++)  {
             if (modeActifCollision == 3)
-                b.rebond({0,0}, window, mesBoules);
-            b.update(b.get_pos());
+                mesBoules[i].rebond(mesBoules, {0,0}, i, i, window);
         }
 
-        //Nettoie fenetre / affiches les boules / affiches le texte / affiche
+        //Nettoie fenetre
         window.clear(sf::Color::White);
 
+        //affiches les boules + le texte
         for (int b : mesBoulesOrdre)  {
             mesBoules[b].draw(window);
         }
         window.draw(mode);
         
+        // affiche
         window.display();
         sf::sleep(sf::milliseconds(10));
     }
