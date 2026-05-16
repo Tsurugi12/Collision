@@ -1,4 +1,4 @@
-A program to test game's collision differents system
+A program to test a game's different collision system
 
 dans la racine avec cmake et MinGW
 cmake -S . -B build -G "MinGW Makefiles"
