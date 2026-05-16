@@ -4,6 +4,7 @@
 
 //Include de mes librairies
 #include "boule.h"
+#include "rectangle.h"
 #include "commande.h"
 
 int main()    {
@@ -42,8 +43,9 @@ int main()    {
     */
     int modeActifCollision = 0;
 
-    //TODO: ajouter carré
-    //TODO: ajouter plateforme
+    //Gerer vitesse par fps
+    sf::Clock clock;    
+    window.setFramerateLimit(60);   //60fps max
 
     //Boucle du jeu
     while (window.isOpen()) {
@@ -99,6 +101,8 @@ int main()    {
                 break;
         }
 
+        float dt = clock.restart().asSeconds(); // 1/dt = fps actuel
+
         /////////////////////////////////////////////Gères les déplacements/////////////////////////////////////////////
         indiceActuel = 0;
         mesBoulesDeplacement[indiceActuel] = {0,0};
@@ -146,7 +150,7 @@ int main()    {
 
         //Gere le deplacement
         for (int i = 0 ; i < mesBoulesDeplacement.size() ; i++)   
-            gererDeplacement(mesBoules, i, mesBoulesDeplacement[i], modeActifCollision, i, window);
+            gererDeplacement(mesBoules, i, mesBoulesDeplacement[i] * dt * 100.f, modeActifCollision, i, window);
 
         //Actualise rebond
         for (int i = 0; i < mesBoules.size(); i++)  {
@@ -165,6 +169,5 @@ int main()    {
         
         // affiche
         window.display();
-        sf::sleep(sf::milliseconds(10));
     }
 }
