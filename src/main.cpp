@@ -33,6 +33,7 @@ int main()    {
 
     //Vecteur qui gere le deplacment des 2 boules
     std::vector<sf::Vector2f> mesBoulesDeplacement = {{0,0}, {0,0}};
+
     int indiceActuel = 0;
 
     /*Pour gérer le mode
@@ -150,13 +151,7 @@ int main()    {
 
         //Gere le deplacement
         for (int i = 0 ; i < mesBoulesDeplacement.size() ; i++)   
-            gererDeplacement(mesBoules, i, mesBoulesDeplacement[i] * dt * 100.f, modeActifCollision, i, window);
-
-        //Actualise rebond
-        for (int i = 0; i < mesBoules.size(); i++)  {
-            if (modeActifCollision == 3)
-                mesBoules[i].rebond(mesBoules, {0,0}, i, i, window);
-        }
+            gererDeplacement(mesBoules, mesBoulesDeplacement[i] * dt * 100.f, i, i, modeActifCollision);
 
         //Nettoie fenetre
         window.clear(sf::Color::White);

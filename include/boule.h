@@ -25,7 +25,7 @@ class Boule {
         Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y);
 
         void update(sf::Vector2f pos);
-        void rebond(std::vector<Boule> &mesBoules, sf::Vector2f force, int bouleActuel, int ancienneBoule, sf::RenderWindow &window);
+        void slide(sf::Vector2f force, bool sliding);
         void draw(sf::RenderWindow &window);
 
         void modify_v(sf::Vector2f p_v, bool add);
@@ -37,7 +37,7 @@ class Boule {
         const sf::Vector2f &get_ve() const;
         float get_r() const;
 
-        void sortieEcran(sf::RenderWindow &window);
+        void sortieEcran();
         bool collision(const Boule &autreBoule) const;
 };
 

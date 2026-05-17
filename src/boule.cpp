@@ -8,8 +8,8 @@ Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, i
     positionFantome3 = {-9999, -9999};
 
     rayon = p_r;
-    vitesse = p_v; //vitesse de la boule en deplacement
-    velocite = {0,0}; //vitesse ajouté quand on pousse la boule
+    vitesse = p_v; //vitesse max sans collision
+    velocite = {0,0}; //vitesse réel quand on pousse la boule
     friction = 0.95;
 
     resol_x = p_resol_x;
@@ -25,12 +25,14 @@ void Boule::update(sf::Vector2f pos)    {
 }
 
 //Gere les rebonds entre boule
-void Boule::rebond(std::vector<Boule> &mesBoules, sf::Vector2f force, int bouleActuel, int ancienneBoule, sf::RenderWindow &window)   {
+void Boule::slide(sf::Vector2f force, bool sliding)   {
     if (velocite.x*velocite.x < 0.1 && velocite.y*velocite.y < 0.1)   velocite = {0,0};
 
-    velocite += force;
-    
-    gererDeplacement(mesBoules, bouleActuel, velocite, 3, ancienneBoule, window);
+    if (sliding)    {
+        float acceleration = 0.2;
+        velocite += ((force - velocite)  * acceleration);
+    }   
+    else    velocite += force;
 
     velocite *= friction;
 }
@@ -108,7 +110,7 @@ float Boule::get_r()  const{
 
 
 //Pour les limites de l'ecran
-void Boule::sortieEcran(sf::RenderWindow &window)   {
+void Boule::sortieEcran()   {
     int diametre = rayon * 2;
     if (position.x < 0 - diametre) position.x += resol_x;
     if (position.y < 0 - diametre) position.y += resol_y;
