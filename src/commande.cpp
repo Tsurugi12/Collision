@@ -4,7 +4,7 @@
 //Fonction qui gère le déplacement
 void gererDeplacement(std::vector<Boule> &mesBoules, sf::Vector2f deplacement, int bouleActuel, int ancienneBoule, int modeActifCollision) {
     mesBoules[bouleActuel].slide({mesBoules[bouleActuel].get_v().x * deplacement.x, mesBoules[bouleActuel].get_v().y * deplacement.y}, true);
-    mesBoules[bouleActuel].modify_pos(mesBoules[bouleActuel].get_ve(), true);
+    mesBoules[bouleActuel].modify_pos(mesBoules[bouleActuel].get_ve() + mesBoules[bouleActuel].get_re(), true);
     
     //pour proteger collision avec balle fantome
     mesBoules[bouleActuel].sortieEcran();
@@ -56,7 +56,7 @@ void gereCollision(std::vector<Boule> &mesBoules, sf::Vector2f deplacement, int 
             if (!(i == bouleActuel || i == ancienneBoule))   {
                 if (mesBoules[bouleActuel].collision(mesBoules[i])) {
                     mesBoules[i].slide(mesBoules[bouleActuel].get_ve(), false);
-                    mesBoules[i].modify_pos(mesBoules[bouleActuel].get_ve(), true);
+                    mesBoules[i].modify_pos(mesBoules[i].get_ve() + mesBoules[i].get_re(), true);
                     gereCollision(mesBoules, deplacement, i, bouleActuel, modeActifCollision);
                     mesBoules[bouleActuel].modify_velocite(mesBoules[bouleActuel].get_ve() / 2.f, false);
                 }  

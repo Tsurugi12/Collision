@@ -1,5 +1,6 @@
 #include "boule.h"
 
+
 //Constructeur
 Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y)  {
     position = p_p;
@@ -26,15 +27,24 @@ void Boule::update(sf::Vector2f pos)    {
 
 //Gere les rebonds entre boule
 void Boule::slide(sf::Vector2f force, bool sliding)   {
+    rebond *= friction;
     if (velocite.x*velocite.x < 0.1 && velocite.y*velocite.y < 0.1)   velocite = {0,0};
+    if (rebond.x*rebond.x < 0.1 && rebond.y*rebond.y < 0.1)   rebond = {0,0};
+
+    static bool sticked = true;
 
     if (sliding)    {
         float acceleration = 0.2;
         velocite += ((force - velocite)  * acceleration);
+        sticked = true;
     }   
-    else    velocite += force;
+    else    {
+        if (sticked)
+            rebond += force;
+        sticked = false;
+    }
 
-    velocite *= friction;
+    
 }
 
 //Affiche boule
@@ -102,6 +112,10 @@ const sf::Vector2f &Boule::get_v()  const{
 
 const sf::Vector2f &Boule::get_ve() const{
     return velocite;
+}
+
+const sf::Vector2f &Boule::get_re() const{
+    return rebond;
 }
 
 float Boule::get_r()  const{

@@ -14,6 +14,7 @@ class Boule {
         sf::Vector2f positionFantome3;
         sf::Vector2f vitesse;
         sf::Vector2f velocite;
+        sf::Vector2f rebond;
 
         float friction;
         float rayon;
@@ -35,6 +36,7 @@ class Boule {
         const sf::Vector2f &get_pos() const;
         const sf::Vector2f &get_v() const;
         const sf::Vector2f &get_ve() const;
+        const sf::Vector2f &get_re() const;
         float get_r() const;
 
         void sortieEcran();
