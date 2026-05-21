@@ -1,6 +1,5 @@
 #include "boule.h"
 
-
 //Constructeur
 Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y)  {
     position = p_p;
@@ -10,7 +9,8 @@ Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, i
 
     rayon = p_r;
     vitesse = p_v; //vitesse max sans collision
-    velocite = {0,0}; //vitesse réel quand on pousse la boule
+    velocite = {0,0}; //vitesse réel de la boule
+    rebond = {0,0}; // vitesse ajouté quand poussé
     friction = 0.95;
 
     resol_x = p_resol_x;

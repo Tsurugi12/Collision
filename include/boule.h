@@ -2,7 +2,6 @@
 #define BOULE_H
 
 #include <SFML/Graphics.hpp>
-#include "commande.h"
 
 class Boule {
     private:
