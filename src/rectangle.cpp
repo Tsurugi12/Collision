@@ -14,7 +14,7 @@ Rectangle::Rectangle(sf::Vector2f p_p, float p_h, float p_w, sf::Color couleur, 
     resol_x = p_resol_x;
     resol_y = p_resol_y;
     
-    rect.setScale(width, height);
+    rect.setSize({width, height});
     rect.setFillColor(couleur);
 }
 
@@ -114,8 +114,8 @@ void Rectangle::sortieEcran()   {
     if (position.x < 0 - width) position.x += resol_x + width;
     if (position.y < 0 - height) position.y += resol_y + height;
 
-    if (position.x > resol_x) position.x -= resol_x - width;
-    if (position.y > resol_y) position.y -= resol_y - height;
+    if (position.x >= resol_x) position.x -= resol_x + width;
+    if (position.y >= resol_y) position.y -= resol_y + height;
 }
 
 //Vérifie la collision avec un autre rectangle
@@ -128,19 +128,38 @@ bool Rectangle::collision(const Rectangle &autreRectangle)  const{
 
     //Collision en x
     if (distance_x >= 0)    {
-        collision_x = autreRectangle.width < distance_x;
+        collision_x = autreRectangle.width >= distance_x;
     }
     if (distance_x < 0)    {
-        collision_x = width < distance_x;
+        collision_x = width > -distance_x;
     }
+    if (!collision_x)   {
+        distance_x = position.x - resol_x - autreRectangle.width - autreRectangle.position.x;
+        collision_x = width >= -distance_x;
+    }
+    /*if (!collision_x)   {
+        distance_x = position.x + resol_x - autreRectangle.position.x;
+        collision_x = width >= distance_x;
+    }*/
+
 
     //Collision en y
     if (distance_y >= 0)    {
-        collision_y = autreRectangle.height < distance_y;
+        collision_y = autreRectangle.height >= distance_y;
     }
     if (distance_y < 0)    {
-        collision_y = height < distance_y;
+        collision_y = height > -distance_y;
     }
+    /*if (!collision_y)   {
+        distance_y = position.y - resol_y - height - autreRectangle.position.y;
+        if (distance_y >= 0)    {
+            collision_y = autreRectangle.height >= distance_y;
+        }
+
+        if (distance_y < 0)    {
+            collision_y = height > -distance_y;
+        }
+    }*/
 
     if (collision_x && collision_y) return true;
     else    return false;
