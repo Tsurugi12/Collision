@@ -243,6 +243,18 @@ int main()    {
             }
         }
 
+        //Methode non conventionel mais fonctionne pour ce cas.
+        if (forme == 1) {
+            //recupere taille max pour gerer sortie ecran
+            float max_x = mesRectangles[0].get_w();
+            float max_y = mesRectangles[0].get_h();
+            for (Rectangle &r : mesRectangles)   {
+                if (max_x < r.get_w())  max_x = r.get_w();
+                if (max_y < r.get_h())  max_y = r.get_h();
+            }
+            for (Rectangle &r : mesRectangles)   r.max({max_x, max_y});
+        }
+
 
         //Pour la priorité d'affichage des boules
         if (mesBoulesOrdre.back() != lastBoule) {

@@ -84,6 +84,11 @@ void Rectangle::modify_velocite(sf::Vector2f p_ve, bool add)   {
     }
 }
 
+//Fonction à but non conventionel
+void Rectangle::max(sf::Vector2f p_max)    {
+    maxi = p_max;
+}
+
 /////////////////////////////////////////////getters/////////////////////////////////////////////
 const sf::Vector2f &Rectangle::get_pos()  const{
     return position;
@@ -111,11 +116,11 @@ float Rectangle::get_w()  const{
 
 //Pour les limites de l'ecran
 void Rectangle::sortieEcran()   {
-    if (position.x < 0 - width) position.x += resol_x + width;
-    if (position.y < 0 - height) position.y += resol_y + height;
+    if (position.x < 0 - maxi.x) position.x += resol_x + maxi.x;
+    if (position.y < 0 - maxi.y) position.y += resol_y + maxi.y;
 
-    if (position.x >= resol_x) position.x -= resol_x + width;
-    if (position.y >= resol_y) position.y -= resol_y + height;
+    if (position.x >= resol_x) position.x -= resol_x + maxi.x;
+    if (position.y >= resol_y) position.y -= resol_y + maxi.y;
 }
 
 //Vérifie la collision avec un autre rectangle
@@ -133,14 +138,15 @@ bool Rectangle::collision(const Rectangle &autreRectangle)  const{
     if (distance_x < 0)    {
         collision_x = width > -distance_x;
     }
+    //Verification supplémentaire sur les bords
     if (!collision_x)   {
-        distance_x = position.x - resol_x - autreRectangle.width - autreRectangle.position.x;
-        collision_x = width >= -distance_x;
+        distance_x = position.x - resol_x - maxi.x - autreRectangle.position.x;
+        collision_x = width >= (distance_x > 0) ? distance_x : -distance_x;
     }
-    /*if (!collision_x)   {
-        distance_x = position.x + resol_x - autreRectangle.position.x;
-        collision_x = width >= distance_x;
-    }*/
+    if (!collision_x)   {
+        distance_x = position.x + resol_x + maxi.x - autreRectangle.position.x;
+        //collision_x = autreRectangle.width < distance_x;
+    }
 
 
     //Collision en y

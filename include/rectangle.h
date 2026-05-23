@@ -10,6 +10,7 @@ class Rectangle{
         sf::Vector2f vitesse;
         sf::Vector2f velocite;
         sf::Vector2f rebond;
+        sf::Vector2f maxi;
 
         float friction;
         float height;
@@ -27,6 +28,7 @@ class Rectangle{
         void modify_v(sf::Vector2f p_v, bool add);
         void modify_pos(sf::Vector2f p_p, bool add);
         void modify_velocite(sf::Vector2f p_ve, bool add);
+        void max(sf::Vector2f p_max);
 
         const sf::Vector2f &get_pos() const;
         const sf::Vector2f &get_v() const;
