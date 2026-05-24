@@ -139,13 +139,13 @@ bool Rectangle::collision(const Rectangle &autreRectangle)  const{
         collision_x = width > -distance_x;
     }
     //Verification supplémentaire sur les bords
-    if (!collision_x)   {
+    if (!collision_x)   {   //bord droit->gauche
         distance_x = position.x - resol_x - maxi.x - autreRectangle.position.x;
-        collision_x = width >= (distance_x > 0) ? distance_x : -distance_x;
+        collision_x = width >= -distance_x;
     }
-    if (!collision_x)   {
+    if (!collision_x)   {   //bord gauche->droit
         distance_x = position.x + resol_x + maxi.x - autreRectangle.position.x;
-        //collision_x = autreRectangle.width < distance_x;
+        collision_x = autreRectangle.width >= distance_x;
     }
 
 
@@ -156,16 +156,15 @@ bool Rectangle::collision(const Rectangle &autreRectangle)  const{
     if (distance_y < 0)    {
         collision_y = height > -distance_y;
     }
-    /*if (!collision_y)   {
-        distance_y = position.y - resol_y - height - autreRectangle.position.y;
-        if (distance_y >= 0)    {
-            collision_y = autreRectangle.height >= distance_y;
-        }
-
-        if (distance_y < 0)    {
-            collision_y = height > -distance_y;
-        }
-    }*/
+    //Verification supplémentaire sur les bords
+    if (!collision_y)   {   //bord bas->haut
+        distance_y = position.y - resol_y - maxi.y - autreRectangle.position.y;
+        collision_y = height >= -distance_y;
+    }
+    if (!collision_y)   {   //bord haut->bas
+        distance_y = position.y + resol_y + maxi.y - autreRectangle.position.y;
+        collision_y = autreRectangle.height >= distance_y;
+    }
 
     if (collision_x && collision_y) return true;
     else    return false;
