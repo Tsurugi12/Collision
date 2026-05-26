@@ -76,6 +76,8 @@ void gereCollision(std::vector<Boule> &mesBoules, sf::Vector2f deplacement, int 
 void gererDeplacement(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplacement, int RectangleActuel, int ancienRectangle, int modeActifCollision) {
     mesRectangles[RectangleActuel].slide({mesRectangles[RectangleActuel].get_v().x * deplacement.x, mesRectangles[RectangleActuel].get_v().y * deplacement.y}, true);
     mesRectangles[RectangleActuel].modify_pos(mesRectangles[RectangleActuel].get_ve() + mesRectangles[RectangleActuel].get_re(), true);
+
+    mesRectangles[RectangleActuel].sortieEcranFantome();//TODO:
     
     //Si mode collision
     if (modeActifCollision)

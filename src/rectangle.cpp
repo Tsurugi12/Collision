@@ -1,5 +1,7 @@
 #include "rectangle.h"
 
+void coll(float distance_x, float distance_y, bool &collision_x, bool &collision_y, float width, float height, float autreWidth, float autreHeight);
+
 //Constructeur
 Rectangle::Rectangle(sf::Vector2f p_p, float p_h, float p_w, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y)  {
     position = p_p;
@@ -226,43 +228,58 @@ bool Rectangle::collisionFantome(const Rectangle &autreRectangle) const    {
     bool collision_x = false;
     bool collision_y = false;
 
+    coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+    if (collision_x && collision_y) return true;
+
+    
+    //Collision fantome angles
+    if (sortie_x && sortie_y)   {
+
+    }
+    if (autreRectangle.sortie_x && autreRectangle.sortie_y)   {
+
+    }
+
+
+    //Collision fantome simple
+    if (sortie_x)   {
+        distance_x = positionFantome.x - autreRectangle.position.x;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+    }
+    if (sortie_y)   {
+        distance_y = positionFantome.y - autreRectangle.position.y;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+    }
+
+    if (autreRectangle.sortie_x)   {
+        distance_x = position.x - autreRectangle.positionFantome.x;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+    }
+    if (autreRectangle.sortie_y)   {
+        distance_y = position.y - autreRectangle.positionFantome.y;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+    }
+
+    //return
+    if (collision_x && collision_y) return true;
+    else    return false;
+}
+
+void coll(float distance_x, float distance_y, bool &collision_x, bool &collision_y, float width, float height, float autreWidth, float autreHeight)    {
     //Collision en x
     if (distance_x >= 0)    {
-        collision_x = autreRectangle.width >= distance_x;
+        collision_x = autreWidth >= distance_x;
     }
     if (distance_x < 0)    {
         collision_x = width > -distance_x;
-    }
-    //Verification supplémentaire sur les bords
-    if (!collision_x)   {   //bord droit->gauche
-        distance_x = position.x - resol_x - maxi.x - autreRectangle.position.x;
-        collision_x = width >= -distance_x;
-    }
-    if (!collision_x)   {   //bord gauche->droit
-        distance_x = position.x + resol_x + maxi.x - autreRectangle.position.x;
-        collision_x = autreRectangle.width >= distance_x;
     }
 
 
     //Collision en y
     if (distance_y >= 0)    {
-        collision_y = autreRectangle.height >= distance_y;
+        collision_y = autreHeight >= distance_y;
     }
     if (distance_y < 0)    {
         collision_y = height > -distance_y;
     }
-    //Verification supplémentaire sur les bords
-    if (!collision_y)   {   //bord bas->haut
-        distance_y = position.y - resol_y - maxi.y - autreRectangle.position.y;
-        collision_y = height >= -distance_y;
-    }
-    if (!collision_y)   {   //bord haut->bas
-        distance_y = position.y + resol_y + maxi.y - autreRectangle.position.y;
-        collision_y = autreRectangle.height >= distance_y;
-    }
-
-
-    //return
-    if (collision_x && collision_y) return true;
-    else    return false;
 }
