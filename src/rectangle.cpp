@@ -49,6 +49,21 @@ void Rectangle::slide(sf::Vector2f force, bool sliding)   {
 void Rectangle::draw(sf::RenderWindow &window)  {
     update(position);
     window.draw(rect);
+
+    //Affiche une boule fantome si on est au limite de l'écran
+    if (positionFantome.x != -9999 && positionFantome.y != -9999)   {
+        update(positionFantome);
+        window.draw(rect);
+    }
+
+    //Affiche 2 boules fantomes si on est aux coins
+    if (positionFantome2.x != -9999 && positionFantome2.y != -9999 && positionFantome3.x != -9999 && positionFantome3.y != -9999)   {
+        update(positionFantome2);
+        window.draw(rect);
+
+        update(positionFantome3);
+        window.draw(rect);
+    }
 }
 
 //change la vitesse
@@ -121,6 +136,10 @@ void Rectangle::sortieEcran()   {
 
     if (position.x >= resol_x) position.x -= resol_x + maxi.x;
     if (position.y >= resol_y) position.y -= resol_y + maxi.y;
+
+    positionFantome = {-9999, -9999};
+    positionFantome2 = {-9999, -9999};
+    positionFantome3 = {-9999, -9999};
 }
 
 //Vérifie la collision avec un autre rectangle
@@ -166,6 +185,84 @@ bool Rectangle::collision(const Rectangle &autreRectangle)  const{
         collision_y = autreRectangle.height >= distance_y;
     }
 
+    
+    //return
+    if (collision_x && collision_y) return true;
+    else    return false;
+}
+
+//Une option pour etre dans le mem espace que les boules et ainsi les faire coexister
+
+void Rectangle::sortieEcranFantome()   {
+    if (position.x < 0 - width) position.x += resol_x;
+    if (position.y < 0 - height) position.y += resol_y;
+
+    if (position.x >= resol_x - width) position.x -= resol_x;
+    if (position.y >= resol_y - height) position.y -= resol_y;
+
+    //Créér une illusion de deuxième rectangle ou plus (recupere coordonnées)
+    positionFantome = {-9999, -9999};
+
+    sortie_x = false;
+    sortie_y = false;
+
+    if ((position.x < 0) && (position.x >= 0 - width))    {  positionFantome = {position.x + resol_x, position.y};   sortie_x = true;   }
+    if ((position.y < 0) && (position.y >= 0 - height))    {  positionFantome = {position.x, position.y + resol_y};   sortie_y = true;   }
+
+    //et 2 autres boules fantome dans les angles
+    positionFantome2 = {-9999, -9999};
+    positionFantome3 = {-9999, -9999};
+    if (sortie_x && sortie_y)   {
+        positionFantome2 = {position.x + resol_x, position.y};
+        positionFantome3 = {position.x + resol_x, position.y + resol_y};
+    }
+}
+
+
+bool Rectangle::collisionFantome(const Rectangle &autreRectangle) const    {
+    float distance_x = position.x - autreRectangle.position.x;
+    float distance_y = position.y - autreRectangle.position.y;
+
+    bool collision_x = false;
+    bool collision_y = false;
+
+    //Collision en x
+    if (distance_x >= 0)    {
+        collision_x = autreRectangle.width >= distance_x;
+    }
+    if (distance_x < 0)    {
+        collision_x = width > -distance_x;
+    }
+    //Verification supplémentaire sur les bords
+    if (!collision_x)   {   //bord droit->gauche
+        distance_x = position.x - resol_x - maxi.x - autreRectangle.position.x;
+        collision_x = width >= -distance_x;
+    }
+    if (!collision_x)   {   //bord gauche->droit
+        distance_x = position.x + resol_x + maxi.x - autreRectangle.position.x;
+        collision_x = autreRectangle.width >= distance_x;
+    }
+
+
+    //Collision en y
+    if (distance_y >= 0)    {
+        collision_y = autreRectangle.height >= distance_y;
+    }
+    if (distance_y < 0)    {
+        collision_y = height > -distance_y;
+    }
+    //Verification supplémentaire sur les bords
+    if (!collision_y)   {   //bord bas->haut
+        distance_y = position.y - resol_y - maxi.y - autreRectangle.position.y;
+        collision_y = height >= -distance_y;
+    }
+    if (!collision_y)   {   //bord haut->bas
+        distance_y = position.y + resol_y + maxi.y - autreRectangle.position.y;
+        collision_y = autreRectangle.height >= distance_y;
+    }
+
+
+    //return
     if (collision_x && collision_y) return true;
     else    return false;
 }

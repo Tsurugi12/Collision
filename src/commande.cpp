@@ -82,7 +82,7 @@ void gererDeplacement(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplac
         gereCollision(mesRectangles, deplacement, RectangleActuel, ancienRectangle, modeActifCollision);
 
     //Vérifie les limites de l'ecran
-    mesRectangles[RectangleActuel].sortieEcran();
+    mesRectangles[RectangleActuel].sortieEcranFantome();//TODO:
 }
 
 
@@ -96,7 +96,7 @@ void gereCollision(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplaceme
     if (modeActifCollision == 1)    {
         for (int i = 0; i < mesRectangles.size(); i++)   {
             if (i != RectangleActuel)   {
-                if (mesRectangles[RectangleActuel].collision(mesRectangles[i])) {
+                if (mesRectangles[RectangleActuel].collisionFantome(mesRectangles[i])) {//TODO:
                     if (deplacement.x * mesRectangles[RectangleActuel].get_ve().x >= 0 && deplacement.y * mesRectangles[RectangleActuel].get_ve().y >= 0)   {
                         mesRectangles[RectangleActuel].modify_velocite(-mesRectangles[RectangleActuel].get_ve(), false);
                         mesRectangles[RectangleActuel].modify_pos(mesRectangles[RectangleActuel].get_ve(), true);
@@ -112,7 +112,7 @@ void gereCollision(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplaceme
     if (modeActifCollision == 2)    {
         for (int i = 0; i < mesRectangles.size(); i++)   {
             if (!(i == RectangleActuel || i == ancienRectangle))   {
-                if (mesRectangles[RectangleActuel].collision(mesRectangles[i])) {
+                if (mesRectangles[RectangleActuel].collisionFantome(mesRectangles[i])) {//TODO:
                     mesRectangles[i].modify_pos(mesRectangles[RectangleActuel].get_ve(), true);
                     gereCollision(mesRectangles, deplacement, i, RectangleActuel, modeActifCollision);
                 }

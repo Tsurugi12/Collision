@@ -7,6 +7,9 @@ class Rectangle{
         sf::RectangleShape rect;
 
         sf::Vector2f position;
+        sf::Vector2f positionFantome;
+        sf::Vector2f positionFantome2;
+        sf::Vector2f positionFantome3;
         sf::Vector2f vitesse;
         sf::Vector2f velocite;
         sf::Vector2f rebond;
@@ -17,6 +20,8 @@ class Rectangle{
         float width;
 
         int resol_x, resol_y;
+
+        bool sortie_x, sortie_y;
 
     public:
         Rectangle(sf::Vector2f p_p, float p_h, float p_w, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y);
@@ -39,4 +44,6 @@ class Rectangle{
 
         void sortieEcran();
         bool collision(const Rectangle &autreRectangle) const;
+        void sortieEcranFantome();
+        bool collisionFantome(const Rectangle &autreRectangle) const;
 };
