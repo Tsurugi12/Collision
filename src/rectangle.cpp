@@ -1,6 +1,6 @@
 #include "rectangle.h"
 
-void coll(float distance_x, float distance_y, bool &collision_x, bool &collision_y, float width, float height, float autreWidth, float autreHeight);
+void coll(float distance_x, float distance_y, bool &collision_x, bool &collision_y, float width, float height, float autreWidth, float autreHeight, bool x);
 
 //Constructeur
 Rectangle::Rectangle(sf::Vector2f p_p, float p_h, float p_w, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y)  {
@@ -228,36 +228,67 @@ bool Rectangle::collisionFantome(const Rectangle &autreRectangle) const    {
     bool collision_x = false;
     bool collision_y = false;
 
-    coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+    coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, true);
+    coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, false);
+
     if (collision_x && collision_y) return true;
 
     
     //Collision fantome angles
     if (sortie_x && sortie_y)   {
+        distance_x = positionFantome2.x - autreRectangle.position.x;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, true);
+        if (collision_x && collision_y) return true;
 
+        distance_y = positionFantome3.y - autreRectangle.position.y;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, false);
+        if (collision_x && collision_y) return true;
     }
     if (autreRectangle.sortie_x && autreRectangle.sortie_y)   {
+        distance_x = position.x - autreRectangle.positionFantome2.x;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, true);
+        if (collision_x && collision_y) return true;
 
+        distance_y = position.y - autreRectangle.positionFantome3.y;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, false);
+        if (collision_x && collision_y) return true;
     }
+    
 
 
+    distance_x = position.x - autreRectangle.position.x;
+    distance_y = position.y - autreRectangle.position.y;
     //Collision fantome simple
     if (sortie_x)   {
         distance_x = positionFantome.x - autreRectangle.position.x;
-        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, true);
+        if (collision_x && collision_y) return true;
     }
     if (sortie_y)   {
         distance_y = positionFantome.y - autreRectangle.position.y;
-        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, false);
+        if (collision_x && collision_y) return true;
     }
 
     if (autreRectangle.sortie_x)   {
         distance_x = position.x - autreRectangle.positionFantome.x;
-        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, true);
+        if (collision_x && collision_y) return true;
     }
     if (autreRectangle.sortie_y)   {
         distance_y = position.y - autreRectangle.positionFantome.y;
-        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height);
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, false);
+        if (collision_x && collision_y) return true;
+    }
+
+
+    //les deux 1*fantome et cas pas gerer avant
+    if ((!sortie_x && sortie_y && autreRectangle.sortie_x && !autreRectangle.sortie_y) || (sortie_x && !sortie_y && !autreRectangle.sortie_x && autreRectangle.sortie_y))   {
+        distance_x = position.x - autreRectangle.positionFantome.x;
+        distance_y = position.y - autreRectangle.positionFantome.y;
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, true);
+        coll(distance_x, distance_y, collision_x, collision_y, width, height, autreRectangle.width, autreRectangle.height, false);
+        if (collision_x && collision_y) return true;
     }
 
     //return
@@ -265,21 +296,23 @@ bool Rectangle::collisionFantome(const Rectangle &autreRectangle) const    {
     else    return false;
 }
 
-void coll(float distance_x, float distance_y, bool &collision_x, bool &collision_y, float width, float height, float autreWidth, float autreHeight)    {
-    //Collision en x
-    if (distance_x >= 0)    {
-        collision_x = autreWidth >= distance_x;
+void coll(float distance_x, float distance_y, bool &collision_x, bool &collision_y, float width, float height, float autreWidth, float autreHeight, bool x)    {
+    if (x)  {
+        //Collision en x
+        if (distance_x >= 0)    {
+            collision_x = autreWidth >= distance_x;
+        }
+        if (distance_x < 0)    {
+            collision_x = width > -distance_x;
+        }
     }
-    if (distance_x < 0)    {
-        collision_x = width > -distance_x;
-    }
-
-
-    //Collision en y
-    if (distance_y >= 0)    {
-        collision_y = autreHeight >= distance_y;
-    }
-    if (distance_y < 0)    {
-        collision_y = height > -distance_y;
+    else    {
+        //Collision en y
+        if (distance_y >= 0)    {
+            collision_y = autreHeight >= distance_y;
+        }
+        if (distance_y < 0)    {
+            collision_y = height > -distance_y;
+        }
     }
 }

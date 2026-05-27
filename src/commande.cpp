@@ -77,14 +77,14 @@ void gererDeplacement(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplac
     mesRectangles[RectangleActuel].slide({mesRectangles[RectangleActuel].get_v().x * deplacement.x, mesRectangles[RectangleActuel].get_v().y * deplacement.y}, true);
     mesRectangles[RectangleActuel].modify_pos(mesRectangles[RectangleActuel].get_ve() + mesRectangles[RectangleActuel].get_re(), true);
 
-    mesRectangles[RectangleActuel].sortieEcranFantome();//TODO:
+    mesRectangles[RectangleActuel].sortieEcran();
     
     //Si mode collision
     if (modeActifCollision)
         gereCollision(mesRectangles, deplacement, RectangleActuel, ancienRectangle, modeActifCollision);
 
     //Vérifie les limites de l'ecran
-    mesRectangles[RectangleActuel].sortieEcranFantome();//TODO:
+    mesRectangles[RectangleActuel].sortieEcran();
 }
 
 
@@ -98,7 +98,7 @@ void gereCollision(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplaceme
     if (modeActifCollision == 1)    {
         for (int i = 0; i < mesRectangles.size(); i++)   {
             if (i != RectangleActuel)   {
-                if (mesRectangles[RectangleActuel].collisionFantome(mesRectangles[i])) {//TODO:
+                if (mesRectangles[RectangleActuel].collision(mesRectangles[i])) {
                     if (deplacement.x * mesRectangles[RectangleActuel].get_ve().x >= 0 && deplacement.y * mesRectangles[RectangleActuel].get_ve().y >= 0)   {
                         mesRectangles[RectangleActuel].modify_velocite(-mesRectangles[RectangleActuel].get_ve(), false);
                         mesRectangles[RectangleActuel].modify_pos(mesRectangles[RectangleActuel].get_ve(), true);
@@ -114,7 +114,7 @@ void gereCollision(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplaceme
     if (modeActifCollision == 2)    {
         for (int i = 0; i < mesRectangles.size(); i++)   {
             if (!(i == RectangleActuel || i == ancienRectangle))   {
-                if (mesRectangles[RectangleActuel].collisionFantome(mesRectangles[i])) {//TODO:
+                if (mesRectangles[RectangleActuel].collision(mesRectangles[i])) {
                     mesRectangles[i].modify_pos(mesRectangles[RectangleActuel].get_ve(), true);
                     gereCollision(mesRectangles, deplacement, i, RectangleActuel, modeActifCollision);
                 }
