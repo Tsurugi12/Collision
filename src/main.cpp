@@ -64,7 +64,7 @@ int main()    {
     /*Pour gérer les formes affichés
         0: boule
         1: rectangles
-        2: TODO:personnage
+        2: personnage
     */
     int forme = 0;
 
@@ -291,6 +291,7 @@ int main()    {
                 mesBoules[b].draw(window);
             }
         }
+    
 
         //affiches les rectangles
         if (forme == 1) {

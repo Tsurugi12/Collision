@@ -9,6 +9,7 @@ add_executable(collision
     src/main.cpp
     src/boule.cpp
     src/rectangle.cpp
+    src/human.cpp
     src/commande.cpp
 )
 

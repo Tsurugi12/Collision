@@ -1,4 +1,5 @@
 #include "boule.h"
+#include "rectangle.h"
 
 //Constructeur
 Boule::Boule(sf::Vector2f p_p, float p_r, sf::Color couleur, sf::Vector2f p_v, int p_resol_x, int p_resol_y)  {
@@ -248,4 +249,75 @@ bool Boule::collision(const Boule &autreBoule)  const{
         if (collision)  return collision;
     }
     return false;
+}
+
+
+bool Boule::collisionRectangle(const Rectangle &rectangle)  const{
+    sf::Vector2f centreBoule = {position.x + rayon, position.y + rayon};
+    
+    //2 for pour parcourir le diametre du rectangle: haut, gauche
+    //Recupere les coordonnées du rectangle les plus proche du cercle
+    sf::Vector2f rectProche = rectangle.get_pos();
+    sf::Vector2f valMin = {std::abs(rectangle.get_pos().x - centreBoule.x), std::abs(rectangle.get_pos().y - centreBoule.y)};
+    //Pour x
+    for (float p = rectangle.get_pos().x ; p <= rectangle.get_pos().x + rectangle.get_w() ; p++)  {
+        if (valMin.x > std::abs(p - centreBoule.x))   {
+            valMin.x = std::abs(p - centreBoule.x);
+            rectProche.x = p;
+        }
+    }
+    //Pour y
+    for (float p = rectangle.get_pos().y ; p <= rectangle.get_pos().y + rectangle.get_h() ; p++)  {
+        if (valMin.y > std::abs(p - centreBoule.y))   {
+            valMin.y = std::abs(p - centreBoule.y);
+            rectProche.y = p;
+        }
+    }
+
+    //Recupere les coordonnées du cercle la plus proche du rectangle
+    sf::Vector2f bouleProche = centreBoule;
+    bouleProche.x = rectProche.x - bouleProche.x;
+    bouleProche.y = rectProche.y - bouleProche.y;
+    float dist_boule_rect = std::sqrt((bouleProche.x*bouleProche.x) + (bouleProche.y*bouleProche.y));
+    bouleProche /= dist_boule_rect;
+    bouleProche *= rayon;
+    bouleProche.x += centreBoule.x;
+    bouleProche.y += centreBoule.y;
+    
+
+    bool coll_x = false;
+    bool coll_y = false;
+
+    sf::Vector2f dist = bouleProche - rectProche;
+
+    //Regarde si collision
+    //boule up,down...
+    //up
+    if (rectProche.y == rectangle.get_pos().y)   {
+        if (dist.y >= 0) coll_y = true;
+        if (dist.x*dist.x < 1)  coll_x = true;
+    }
+    //down
+    if (rectProche.y == rectangle.get_pos().y + rectangle.get_h())   {
+        if (dist.y <= 0) coll_y = true;
+        if (dist.x*dist.x < 1)  coll_x = true;
+    }
+
+    //left
+    if (rectProche.x == rectangle.get_pos().x)   {
+        if (dist.x >= 0) coll_x = true;
+        if (dist.y*dist.y < 1)  coll_y = true;
+    }
+    //right
+    if (rectProche.x == rectangle.get_pos().x + rectangle.get_w() )   {
+        if (dist.x <= 0) coll_x = true;
+        if (dist.y*dist.y < 1)  coll_y = true;
+    }
+
+    //Le centre de la boule
+    if (centreBoule.x - rectangle.get_pos().x - rectangle.get_w()/2 < rayon/2 && centreBoule.x - rectangle.get_pos().x - rectangle.get_w()/2 > -rayon/2 && centreBoule.y - rectangle.get_pos().y - rectangle.get_h()/2 < rayon/2 && centreBoule.y - rectangle.get_pos().y - rectangle.get_h()/2 > -rayon/2)    
+        return true;
+    
+    if (coll_x && coll_y)   return true;
+    else    return false;
 }

@@ -2,6 +2,8 @@
 #define BOULE_H
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
+class Rectangle;
 
 class Boule {
     private:
@@ -40,6 +42,7 @@ class Boule {
 
         void sortieEcran();
         bool collision(const Boule &autreBoule) const;
+        bool collisionRectangle(const Rectangle &rectangle)  const;
 };
 
 #endif

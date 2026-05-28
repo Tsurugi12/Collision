@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
+class Boule;
 
 class Rectangle{
     private:
@@ -46,4 +48,5 @@ class Rectangle{
         bool collision(const Rectangle &autreRectangle) const;
         void sortieEcranFantome();
         bool collisionFantome(const Rectangle &autreRectangle) const;
+        bool collisionBoule(const Boule &boule)  const;
 };
