@@ -45,4 +45,13 @@ class Human {
 
     public:
         Human(sf::Vector2f p_p, sf::Vector2f p_v, float taille, sf::Color couleurTete, sf::Color couleurCou, sf::Color couleurTorse, sf::Color couleurBras, sf::Color couleurJambe, int resol_x, int resol_y);
-};
+        void update(sf::Vector2f pos, bool add);
+        void modify_taille(float p_taille);
+        void draw(sf::RenderWindow &window);
+
+        void modify_v(sf::Vector2f p_v);
+
+        const sf::Vector2f &get_pos() const;
+        const sf::Vector2f &get_v() const;
+        float get_taille() const;
+    };

@@ -107,6 +107,13 @@ void Rectangle::max(sf::Vector2f p_max)    {
     maxi = p_max;
 }
 
+void Rectangle::modify_dimension(float p_h, float p_w) {
+    height = p_h;
+    width = p_w;
+    rect.setSize({width, height});
+}
+
+
 /////////////////////////////////////////////getters/////////////////////////////////////////////
 const sf::Vector2f &Rectangle::get_pos()  const{
     return position;

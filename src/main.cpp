@@ -5,6 +5,7 @@
 //Include de mes librairies
 #include "boule.h"
 #include "rectangle.h"
+#include "human.h"
 #include "commande.h"
 
 int main()    {
@@ -34,6 +35,12 @@ int main()    {
         Rectangle({80.f, 0.f}, 30.f, 60.f, sf::Color::Blue, {3, 3}, 800, 600)
     };
 
+    //Création vector Human
+    std::vector<Human> mesHuman = {
+        Human({0.f, 0.f}, {3, 3}, 2, sf::Color::Red, sf::Color::Red, sf::Color::Red, sf::Color::Red, sf::Color::Red, 800, 600), 
+        Human({80.f, 0.f}, {5, 5}, 1, sf::Color::Blue, sf::Color::Cyan, sf::Color::Green, sf::Color::Red, sf::Color::Yellow, 800, 600)
+    };
+
 
     //Pour gérer l'ordre d'affichage des boules
     std::vector<int> mesBoulesOrdre = {0, 1};
@@ -43,12 +50,19 @@ int main()    {
     std::vector<int> mesRectanglesOrdre = {0, 1};
     int lastRectangle = 0;
 
+    //Pour gérer l'ordre d'affichage des humain
+    std::vector<int> mesHumanOrdre = {0, 1};
+    int lastHuman = 0;
+
 
     //Vecteur qui gere le deplacment des 2 boules
     std::vector<sf::Vector2f> mesBoulesDeplacement = {{0,0}, {0,0}};
 
-    //Vecteur qui gere le deplacment des 2 boules
+    //Vecteur qui gere le deplacment des 2 rectangles
     std::vector<sf::Vector2f> mesRectanglesDeplacement = {{0,0}, {0,0}};
+
+    //Vecteur qui gere le deplacment des 2 humans
+    std::vector<sf::Vector2f> mesHumansDeplacement = {{0,0}, {0,0}};
 
     int indiceActuel = 0;
 
@@ -149,6 +163,7 @@ int main()    {
         indiceActuel = 0;
         mesBoulesDeplacement[indiceActuel] = {0,0};
         mesRectanglesDeplacement[indiceActuel] = {0,0};
+        mesHumansDeplacement[indiceActuel] = {0,0};
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))    {
             if (forme == 0) {
                 mesBoulesDeplacement[indiceActuel].y -= 1;
@@ -158,6 +173,11 @@ int main()    {
             if (forme == 1) {
                 mesRectanglesDeplacement[indiceActuel].y -= 1;
                 lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].y -= 1;
+                lastHuman = indiceActuel;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))    {
@@ -170,27 +190,42 @@ int main()    {
                 mesRectanglesDeplacement[indiceActuel].y += 1;
                 lastRectangle = indiceActuel;
             }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].y += 1;
+                lastHuman = indiceActuel;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))    {
             if (forme == 0) {
-            mesBoulesDeplacement[indiceActuel].x -= 1;
-            lastBoule = indiceActuel;
+                mesBoulesDeplacement[indiceActuel].x -= 1;
+                lastBoule = indiceActuel;
             }
 
             if (forme == 1) {
-            mesRectanglesDeplacement[indiceActuel].x -= 1;
-            lastRectangle = indiceActuel;
+                mesRectanglesDeplacement[indiceActuel].x -= 1;
+                lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].x -= 1;
+                lastHuman = indiceActuel;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))    {
             if (forme == 0) {
-            mesBoulesDeplacement[indiceActuel].x += 1;
-            lastBoule = indiceActuel;
+                mesBoulesDeplacement[indiceActuel].x += 1;
+                lastBoule = indiceActuel;
             }
 
             if (forme == 1) {
-            mesRectanglesDeplacement[indiceActuel].x += 1;
-            lastRectangle = indiceActuel;
+                mesRectanglesDeplacement[indiceActuel].x += 1;
+                lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].x += 1;
+                lastHuman = indiceActuel;
             }
         }
 
@@ -198,48 +233,69 @@ int main()    {
         indiceActuel = 1;
         mesBoulesDeplacement[indiceActuel] = {0,0};
         mesRectanglesDeplacement[indiceActuel] = {0,0};
+        mesHumansDeplacement[indiceActuel] = {0,0};
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    {
             if (forme == 0) {
-            mesBoulesDeplacement[indiceActuel].y -= 1;
-            lastBoule = indiceActuel;
+                mesBoulesDeplacement[indiceActuel].y -= 1;
+                lastBoule = indiceActuel;
             }
 
             if (forme == 1) {
-            mesRectanglesDeplacement[indiceActuel].y -= 1;
-            lastRectangle = indiceActuel;
+                mesRectanglesDeplacement[indiceActuel].y -= 1;
+                lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].y -= 1;
+                lastHuman = indiceActuel;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))    {
             if (forme == 0) {
-            mesBoulesDeplacement[indiceActuel].y += 1;
-            lastBoule = indiceActuel;
+                mesBoulesDeplacement[indiceActuel].y += 1;
+                lastBoule = indiceActuel;
             }
 
             if (forme == 1) {
-            mesRectanglesDeplacement[indiceActuel].y += 1;
-            lastRectangle = indiceActuel;
+                mesRectanglesDeplacement[indiceActuel].y += 1;
+                lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].y += 1;
+                lastHuman = indiceActuel;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))    {
             if (forme == 0) {
-            mesBoulesDeplacement[indiceActuel].x -= 1;
-            lastBoule = indiceActuel;
+                mesBoulesDeplacement[indiceActuel].x -= 1;
+                lastBoule = indiceActuel;
             }
 
             if (forme == 1) {
-            mesRectanglesDeplacement[indiceActuel].x -= 1;
-            lastRectangle = indiceActuel;
+                mesRectanglesDeplacement[indiceActuel].x -= 1;
+                lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].x -= 1;
+                lastHuman = indiceActuel;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))    {
             if (forme == 0) {
-            mesBoulesDeplacement[indiceActuel].x += 1;
-            lastBoule = indiceActuel;
+                mesBoulesDeplacement[indiceActuel].x += 1;
+                lastBoule = indiceActuel;
             }
 
             if (forme == 1) {
-            mesRectanglesDeplacement[indiceActuel].x += 1;
-            lastRectangle = indiceActuel;
+                mesRectanglesDeplacement[indiceActuel].x += 1;
+                lastRectangle = indiceActuel;
+            }
+
+            if (forme == 2) {
+                mesHumansDeplacement[indiceActuel].x += 1;
+                lastHuman = indiceActuel;
             }
         }
 
@@ -268,6 +324,12 @@ int main()    {
                 mesRectanglesOrdre.push_back(lastRectangle);
         }
 
+        //Pour la priorité d'affichage des humains
+        if (mesHumanOrdre.back() != lastHuman) {
+                mesHumanOrdre.erase(std::find(mesHumanOrdre.begin(), mesHumanOrdre.end(), lastHuman));
+                mesHumanOrdre.push_back(lastHuman);
+        }
+
 
         //Gere le deplacement boule
         if (forme == 0) {
@@ -275,10 +337,16 @@ int main()    {
                 gererDeplacement(mesBoules, mesBoulesDeplacement[i] * dt * 100.f, i, i, modeActifCollision);
         }
         
-        //Gere le deplacement boule
+        //Gere le deplacement rectangles
         if (forme == 1) {
             for (int i = 0 ; i < mesRectanglesDeplacement.size() ; i++)   
                 gererDeplacement(mesRectangles, mesRectanglesDeplacement[i] * dt * 100.f, i, i, modeActifCollision);
+        }
+
+        //Gere le deplacement humains
+        if (forme == 2) {
+            for (int i = 0 ; i < mesHumansDeplacement.size() ; i++)   
+                gererDeplacement(mesHuman, mesHumansDeplacement[i] * dt * 100.f, i, i, modeActifCollision);
         }
 
 
@@ -292,11 +360,17 @@ int main()    {
             }
         }
     
-
         //affiches les rectangles
         if (forme == 1) {
             for (int b : mesRectanglesOrdre)  {
                 mesRectangles[b].draw(window);
+            }
+        }
+
+        //affiches les rectangles
+        if (forme == 2) {
+            for (int b : mesHumanOrdre)  {
+                mesHuman[b].draw(window);
             }
         }
 

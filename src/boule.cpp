@@ -102,6 +102,12 @@ void Boule::modify_velocite(sf::Vector2f p_ve, bool add)   {
     }
 }
 
+void Boule::modify_rayon(float p_r)  {
+    rayon = p_r;
+    circle.setRadius(rayon);
+}
+
+
 /////////////////////////////////////////////getters/////////////////////////////////////////////
 const sf::Vector2f &Boule::get_pos()  const{
     return position;

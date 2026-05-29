@@ -135,3 +135,13 @@ void gereCollision(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplaceme
         }
     }
 }
+
+//Humans
+void gererDeplacement(std::vector<Human> &mesHumains, sf::Vector2f deplacement, int HumanActuel, int ancienHuman, int modeActifCollision)   {
+    mesHumains[HumanActuel].update(deplacement, true);
+}
+
+
+void gereCollision(std::vector<Human> &mesHumains, sf::Vector2f deplacement, int HumanActuel, int ancienHuman, int modeActifCollision)  {
+
+}

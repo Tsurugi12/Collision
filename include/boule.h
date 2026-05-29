@@ -33,6 +33,7 @@ class Boule {
         void modify_v(sf::Vector2f p_v, bool add);
         void modify_pos(sf::Vector2f p_p, bool add);
         void modify_velocite(sf::Vector2f p_ve, bool add);
+        void modify_rayon(float p_r);
 
         const sf::Vector2f &get_pos() const;
         const sf::Vector2f &get_v() const;
