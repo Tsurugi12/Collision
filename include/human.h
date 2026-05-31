@@ -54,4 +54,5 @@ class Human {
         const sf::Vector2f &get_pos() const;
         const sf::Vector2f &get_v() const;
         float get_taille() const;
+        void sortieEcran();
     };

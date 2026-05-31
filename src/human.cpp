@@ -111,3 +111,13 @@ const sf::Vector2f &Human::get_v() const{
 float Human::get_taille() const{
     return multiplicateurTaille;
 }
+
+void Human::sortieEcran()   {
+    tete.sortieEcran();
+    cou.sortieEcranFantome();
+    torse.sortieEcranFantome();
+    brasGauche.sortieEcranFantome();
+    brasDroit.sortieEcranFantome();
+    jambeGauche.sortieEcranFantome();
+    jambeDroit.sortieEcranFantome();
+}
