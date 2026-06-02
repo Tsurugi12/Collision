@@ -120,4 +120,31 @@ void Human::sortieEcran()   {
     brasDroit.sortieEcranFantome();
     jambeGauche.sortieEcranFantome();
     jambeDroit.sortieEcranFantome();
+
+    position = tete.get_pos();
+}
+
+bool Human::collision(const Human &autreHuman)  const{
+    if (tete.collision(autreHuman.tete) || tete.collisionRectangle(autreHuman.cou) || tete.collisionRectangle(autreHuman.torse) || tete.collisionRectangle(autreHuman.brasGauche) || tete.collisionRectangle(autreHuman.brasDroit) || tete.collisionRectangle(autreHuman.jambeGauche) || tete.collisionRectangle(autreHuman.jambeDroit))
+        return true;
+
+    if (cou.collisionBoule(autreHuman.tete) || cou.collisionFantome(autreHuman.cou) || cou.collisionFantome(autreHuman.torse) || cou.collisionFantome(autreHuman.brasGauche) || cou.collisionFantome(autreHuman.brasDroit) || cou.collisionFantome(autreHuman.jambeGauche) || cou.collisionFantome(autreHuman.jambeDroit))
+        return true;
+
+    if (torse.collisionBoule(autreHuman.tete) || torse.collisionFantome(autreHuman.cou) || torse.collisionFantome(autreHuman.torse) || torse.collisionFantome(autreHuman.brasGauche) || torse.collisionFantome(autreHuman.brasDroit) || torse.collisionFantome(autreHuman.jambeGauche) || torse.collisionFantome(autreHuman.jambeDroit))
+        return true;
+
+    if (brasGauche.collisionBoule(autreHuman.tete) || brasGauche.collisionFantome(autreHuman.cou) || brasGauche.collisionFantome(autreHuman.torse) || brasGauche.collisionFantome(autreHuman.brasGauche) || brasGauche.collisionFantome(autreHuman.brasDroit) || brasGauche.collisionFantome(autreHuman.jambeGauche) || brasGauche.collisionFantome(autreHuman.jambeDroit))
+        return true;
+
+    if (brasDroit.collisionBoule(autreHuman.tete) || brasDroit.collisionFantome(autreHuman.cou) || brasDroit.collisionFantome(autreHuman.torse) || brasDroit.collisionFantome(autreHuman.brasGauche) || brasDroit.collisionFantome(autreHuman.brasDroit) || brasDroit.collisionFantome(autreHuman.jambeGauche) || brasDroit.collisionFantome(autreHuman.jambeDroit))
+        return true;
+
+    if (jambeGauche.collisionBoule(autreHuman.tete) || jambeGauche.collisionFantome(autreHuman.cou) || jambeGauche.collisionFantome(autreHuman.torse) || jambeGauche.collisionFantome(autreHuman.brasGauche) || jambeGauche.collisionFantome(autreHuman.brasDroit) || jambeGauche.collisionFantome(autreHuman.jambeGauche) || jambeGauche.collisionFantome(autreHuman.jambeDroit))
+        return true;
+
+    if (jambeDroit.collisionBoule(autreHuman.tete) || jambeDroit.collisionFantome(autreHuman.cou) || jambeDroit.collisionFantome(autreHuman.torse) || jambeDroit.collisionFantome(autreHuman.brasGauche) || jambeDroit.collisionFantome(autreHuman.brasDroit) || jambeDroit.collisionFantome(autreHuman.jambeGauche) || jambeDroit.collisionFantome(autreHuman.jambeDroit))
+        return true;
+
+    return false;
 }

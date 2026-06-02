@@ -138,11 +138,49 @@ void gereCollision(std::vector<Rectangle> &mesRectangles, sf::Vector2f deplaceme
 
 //Humans
 void gererDeplacement(std::vector<Human> &mesHumains, sf::Vector2f deplacement, int HumanActuel, int ancienHuman, int modeActifCollision)   {
-    mesHumains[HumanActuel].update(deplacement, true);
+    mesHumains[HumanActuel].update({mesHumains[HumanActuel].get_v().x * deplacement.x, mesHumains[HumanActuel].get_v().y * deplacement.y}, true);
+    mesHumains[HumanActuel].sortieEcran();
+
+    //Si mode collision
+    if (modeActifCollision)
+        gereCollision(mesHumains, deplacement, HumanActuel, ancienHuman, modeActifCollision);
+
     mesHumains[HumanActuel].sortieEcran();
 }
 
 
 void gereCollision(std::vector<Human> &mesHumains, sf::Vector2f deplacement, int HumanActuel, int ancienHuman, int modeActifCollision)  {
+    if (modeActifCollision == 1)    {
+        for (int i = 0; i < mesHumains.size(); i++)   {
+            if (i != HumanActuel)   {
+                if (mesHumains[HumanActuel].collision(mesHumains[i])) {
+                    mesHumains[HumanActuel].update({-mesHumains[HumanActuel].get_v().x * deplacement.x, -mesHumains[HumanActuel].get_v().y * deplacement.y}, true);
+                }
+            }
+        }
+    }
 
+    if (modeActifCollision == 2)    {
+        for (int i = 0; i < mesHumains.size(); i++)   {
+            if (!(i == HumanActuel || i == ancienHuman))   {
+                if (mesHumains[HumanActuel].collision(mesHumains[i])) {
+                    mesHumains[i].update({mesHumains[HumanActuel].get_v().x * deplacement.x, mesHumains[HumanActuel].get_v().y * deplacement.y}, true);
+                    gereCollision(mesHumains, deplacement, i, HumanActuel, modeActifCollision);
+                }
+            }
+        }
+    }
+/*
+    if (modeActifCollision == 3)    {
+        for (int i = 0; i < mesHumains.size(); i++)   {
+            if (!(i == HumanActuel || i == ancienHuman))   {
+                if (mesHumains[HumanActuel].collision(mesHumains[i])) {
+                    mesHumains[i].slide(mesHumains[HumanActuel].get_ve(), false);
+                    mesHumains[i].modify_pos(mesHumains[i].get_ve() + mesHumains[i].get_re(), true);
+                    gereCollision(mesHumains, deplacement, i, HumanActuel, modeActifCollision);
+                    mesHumains[HumanActuel].modify_velocite(mesHumains[HumanActuel].get_ve() / 2.f, false);
+                }  
+            }
+        }
+    }*/
 }
