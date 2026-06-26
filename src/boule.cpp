@@ -285,12 +285,19 @@ bool Boule::collisionRectangle(const Rectangle &rectangle)  const{
     bouleProche.x = rectProche.x - bouleProche.x;
     bouleProche.y = rectProche.y - bouleProche.y;
     float dist_boule_rect = std::sqrt((bouleProche.x*bouleProche.x) + (bouleProche.y*bouleProche.y));
+
+    if (dist_boule_rect < rayon)    return true;
+    else return false;
+
+
+
+    /*
     bouleProche /= dist_boule_rect;
     bouleProche *= rayon;
     bouleProche.x += centreBoule.x;
     bouleProche.y += centreBoule.y;
     
-
+    
     bool coll_x = false;
     bool coll_y = false;
 
@@ -326,4 +333,5 @@ bool Boule::collisionRectangle(const Rectangle &rectangle)  const{
     
     if (coll_x && coll_y)   return true;
     else    return false;
+    */
 }
